@@ -12,6 +12,8 @@ import {
   LogOut,
   UploadCloud
 } from 'lucide-react'
+import { ProdutosTab } from './_components/produtos-tab'
+import { ServicosTab } from './_components/servicos-tab'
 
 // OBSERVAÇÃO IMPORTANTE (REGRA DE OURO):
 // ----------------------------------------------------------------------------
@@ -96,29 +98,35 @@ export default function AdminDashboardPage() {
         </header>
 
         {/* Dashboard Content Mock */}
-        <section className="bg-white rounded-2xl p-8 border border-stone-100 shadow-sm min-h-[500px] flex flex-col items-center justify-center text-center">
-          <div className="w-20 h-20 bg-stone-50 rounded-full flex items-center justify-center mb-6 text-stone-300">
-            {menuItems.find(i => i.name === activeTab)?.icon || <LayoutDashboard size={32} />}
-          </div>
-          <h3 className="text-xl font-semibold text-stone-800 mb-2">Módulo: {activeTab}</h3>
-          <p className="text-stone-500 max-w-md">
-            Esta é a tela inicial do módulo de {activeTab.toLowerCase()}.
-            Funcionalidades específicas serão implementadas aqui.
-          </p>
-
-          {(activeTab === 'Produtos' || activeTab === 'Serviços' || activeTab === 'Clientes/Pets') && (
-            <div className="mt-12 bg-blue-50/50 border border-blue-100 p-6 rounded-xl max-w-xl text-left">
-              <div className="flex items-center gap-3 text-blue-600 font-semibold mb-3">
-                <UploadCloud size={20} />
-                Regra de Upload de Imagens
-              </div>
-              <p className="text-sm text-blue-800/80 leading-relaxed font-mono bg-blue-100/30 p-4 rounded-lg">
-                TODO upload neste CMS será via <strong className="font-bold">FileReader</strong> convertendo em
-                <strong className="font-bold"> Base64</strong> e gravado no BD em JSON ou String, sem Amazon S3 ou externos.
-              </p>
+        {activeTab === 'Produtos' ? (
+          <ProdutosTab />
+        ) : activeTab === 'Serviços' ? (
+          <ServicosTab />
+        ) : (
+          <section className="bg-white rounded-2xl p-8 border border-stone-100 shadow-sm min-h-[500px] flex flex-col items-center justify-center text-center">
+            <div className="w-20 h-20 bg-stone-50 rounded-full flex items-center justify-center mb-6 text-stone-300">
+              {menuItems.find(i => i.name === activeTab)?.icon || <LayoutDashboard size={32} />}
             </div>
-          )}
-        </section>
+            <h3 className="text-xl font-semibold text-stone-800 mb-2">Módulo: {activeTab}</h3>
+            <p className="text-stone-500 max-w-md">
+              Esta é a tela inicial do módulo de {activeTab.toLowerCase()}.
+              Funcionalidades específicas serão implementadas aqui.
+            </p>
+
+            {(activeTab === 'Clientes/Pets') && (
+              <div className="mt-12 bg-blue-50/50 border border-blue-100 p-6 rounded-xl max-w-xl text-left">
+                <div className="flex items-center gap-3 text-blue-600 font-semibold mb-3">
+                  <UploadCloud size={20} />
+                  Regra de Upload de Imagens
+                </div>
+                <p className="text-sm text-blue-800/80 leading-relaxed font-mono bg-blue-100/30 p-4 rounded-lg">
+                  TODO upload neste CMS será via <strong className="font-bold">FileReader</strong> convertendo em
+                  <strong className="font-bold"> Base64</strong> e gravado no BD em JSON ou String, sem Amazon S3 ou externos.
+                </p>
+              </div>
+            )}
+          </section>
+        )}
       </main>
 
     </div>
