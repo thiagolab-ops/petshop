@@ -1,37 +1,29 @@
-"use client";
+"use client"
 
-import { useRouter } from "next/navigation";
-import { useCart } from "@/lib/cart-context";
-import { toast } from "@/hooks/use-toast";
+import { useCartStore } from '@/store/cart-store'
+import { Product } from '@prisma/client'
+import { ShoppingCart } from 'lucide-react'
+import { toast } from 'sonner' // Assume sonner/hot-toast is available
 
-export default function AddToCartButton({ service, label = "Agendar Agora", className }: any) {
-    const router = useRouter();
-    const { addItem } = useCart();
+interface AddToCartButtonProps {
+    product: Product
+}
 
-    const handleBook = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
+export function AddToCartButton({ product }: AddToCartButtonProps) {
+    const addItem = useCartStore((state) => state.addItem)
 
-        addItem({
-            id: service.id,
-            name: service.name,
-            price: service.price,
-            quantity: 1,
-            imageUrl: service.imageUrl,
-        });
-
-        toast({
-            title: 'Serviço selecionado!',
-            description: `${service.name} foi adicionado à sua lista.`,
-            className: 'bg-white border-brand-rose text-brand-dark font-medium'
-        });
-
-        router.push("/carrinho");
-    };
+    const handleAddToCart = () => {
+        addItem(product)
+        toast.success(`${product.name} adicionado ao carrinho!`)
+    }
 
     return (
-        <button onClick={handleBook} className={className}>
-            {label}
+        <button
+            onClick={handleAddToCart}
+            className="w-full mt-4 bg-brand-dark text-white py-2.5 rounded-lg font-medium hover:bg-stone-800 transition flex items-center justify-center gap-2"
+        >
+            <ShoppingCart size={18} />
+            Adicionar ao Carrinho
         </button>
-    );
+    )
 }
